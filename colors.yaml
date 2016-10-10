@@ -1,0 +1,101 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: blue
+  labels:
+    app: colors
+    color: blue
+spec:
+  type: NodePort
+  ports:
+  - port: 8001
+    targetPort: 8000
+  selector:
+    app: colors
+    color: blue
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: green
+  labels:
+    app: colors
+    color: green
+spec:
+  type: NodePort
+  ports:
+  - port: 8002
+    targetPort: 8000
+  selector:
+    app: colors
+    color: green
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: blue
+  labels:
+    app: colors
+data:
+  color: blue
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: green
+  labels:
+    app: colors
+data:
+  color: green
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: blue
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: colors
+        color: blue
+    spec:
+      volumes:
+      - name: colors 
+        configMap:
+          name: blue
+      containers:
+      - name: colors
+        image: mstrzele/colors:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: colors 
+          mountPath: /usr/src/app/color
+          subPath: color
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: green
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: colors
+        color: green
+    spec:
+      volumes:
+      - name: colors 
+        configMap:
+          name: green
+      containers:
+      - name: colors
+        image: mstrzele/colors:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: colors 
+          mountPath: /usr/src/app/color
+          subPath: color
