@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hello
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      containers:
+      - name: hello-php
+        image: mstrzele/hello-php:v1
+        ports:
+        - containerPort: 8000
+      - name: hello-node
+        image: mstrzele/hello-node:v1
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: colors
+  labels:
+    app: colors
+spec:
+  type: NodePort
+  ports:
+  - port: 8003
+    targetPort: 8000
+  selector:
+    app: colors
