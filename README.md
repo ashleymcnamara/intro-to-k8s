@@ -1146,6 +1146,18 @@ Hello World!Hello World!Hello World!
 
 layout: true
 
+## Kubernetes Dashboard
+
+---
+
+```
+$ minikube dashboard
+```
+
+---
+
+layout: true
+
 ## Blue-Green Deployment
 
 ---
